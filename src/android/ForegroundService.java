@@ -219,12 +219,18 @@ public class ForegroundService extends Service {
         setColor(notification, settings);
 
         if (intent != null && settings.optBoolean("resume")) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent contentIntent = PendingIntent.getActivity(
+            PendingIntent contentIntent;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                contentIntent = PendingIntent.getActivity(
+                    context, NOTIFICATION_ID, intent,
+                    [PendingIntent.FLAG_UPDATE_CURRENT, PendingIntent.FLAG_MUTABLE]);
+            } else {
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                contentIntent = PendingIntent.getActivity(
                     context, NOTIFICATION_ID, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
-
-
+            }
             notification.setContentIntent(contentIntent);
         }
 
