@@ -224,7 +224,7 @@ public class ForegroundService extends Service {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 contentIntent = PendingIntent.getActivity(
                     context, NOTIFICATION_ID, intent,
-                    [PendingIntent.FLAG_UPDATE_CURRENT, PendingIntent.FLAG_MUTABLE]);
+                    PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 contentIntent = PendingIntent.getActivity(
